@@ -5,8 +5,53 @@
 html,
 body {
   @apply bg-white dark:bg-gray-950;
+  color-scheme: light dark;
+}
 
-  @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
+  html, body {
     color-scheme: dark;
   }
+}
+
+/* Custom styles for black and white photography aesthetic */
+.photo-bw {
+  @apply filter grayscale hover:grayscale-0 transition-all duration-500;
+}
+
+/* Improved text contrast */
+.text-high-contrast {
+  @apply text-gray-900 dark:text-gray-800;
+}
+
+.text-medium-contrast {
+  @apply text-gray-800 dark:text-gray-200;
+}
+
+/* Custom styles for eclectic spacing */
+.eclectic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-gap: 1.5rem;
+  grid-auto-flow: dense;
+}
+
+.eclectic-grid > * {
+  @apply transform transition-transform duration-300 bg-white;
+}
+
+.eclectic-grid > *:nth-child(3n+1) {
+  @apply -rotate-1;
+}
+
+.eclectic-grid > *:nth-child(3n+2) {
+  @apply rotate-1;
+}
+
+.eclectic-grid > *:nth-child(3n) {
+  transform: rotate(-0.5deg);
+}
+
+.eclectic-grid > *:hover {
+  @apply rotate-0 scale-105 z-10 shadow-xl;
 }
