@@ -66,7 +66,7 @@ export default function PeopleIndex() {
                 )}
               </div>
               <div className="p-4">
-                <h3 className="font-bold text-lg">{person.name}</h3>
+                <h3 className="font-bold text-lg text-black">{person.name}</h3>
                 {person.location && (
                   <p className="text-gray-600 text-sm">{person.location}</p>
                 )}

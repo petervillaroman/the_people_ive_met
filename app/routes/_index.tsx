@@ -11,7 +11,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6">
-      <h1 className="text-4xl font-bold mb-6 text-center">The People I&apos;ve Met</h1>
+      <h1 className="text-4xl font-bold mb-6 text-center text-orange-500">The People I&apos;ve Met</h1>
       <p className="text-lg text-gray-600 max-w-2xl text-center mb-8">
         A personal collection of all the interesting people I&apos;ve encountered on my journey through life.
       </p>

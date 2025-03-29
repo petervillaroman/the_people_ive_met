@@ -105,7 +105,7 @@ export default function PersonDetails() {
   };
   
   return (
-    <div>
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden p-6">
       <div className="flex justify-between items-center mb-6">
         <a
           href="/people"
@@ -129,65 +129,63 @@ export default function PersonDetails() {
         </div>
       </div>
       
-      <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-        <div className="md:flex">
-          <div className="md:w-1/3">
-            {person.photo_url ? (
-              <img
-                src={person.photo_url}
-                alt={person.name}
-                className="w-full h-64 md:h-auto object-cover"
-              />
-            ) : (
-              <div className="bg-gray-200 w-full h-64 md:h-full flex items-center justify-center">
-                <span className="text-gray-400">No photo</span>
+      <div className="md:flex">
+        <div className="md:w-1/3 ">
+          {person.photo_url ? (
+            <img
+              src={person.photo_url}
+              alt={person.name}
+              className="w-full h-64 md:h-auto object-cover rounded-lg"
+            />
+          ) : (
+            <div className="bg-gray-200 w-full h-64 md:h-full flex items-center justify-center rounded-lg">
+              <span className="text-gray-400">No photo</span>
+            </div>
+          )}
+        </div>
+        
+        <div className="p-6 md:w-2/3">
+          <h1 className="text-2xl font-bold mb-4 text-black">{person.name}</h1>
+          
+          <div className="space-y-4">
+            {person.location && (
+              <div>
+                <h3 className="text-sm font-semibold text-gray-500">Location</h3>
+                <p className="text-gray-700">{person.location}</p>
               </div>
             )}
-          </div>
-          
-          <div className="p-6 md:w-2/3">
-            <h1 className="text-2xl font-bold mb-4">{person.name}</h1>
             
-            <div className="space-y-4">
-              {person.location && (
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-500">Location</h3>
-                  <p>{person.location}</p>
-                </div>
-              )}
-              
-              {person.context && (
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-500">How We Met</h3>
-                  <p>{person.context}</p>
-                </div>
-              )}
-              
-              {person.date_met && (
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-500">Date Met</h3>
-                  <p>{formatDate(person.date_met)}</p>
-                </div>
-              )}
-              
-              {person.their_story && (
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-500">Their Story</h3>
-                  <p className="whitespace-pre-line">{person.their_story}</p>
-                </div>
-              )}
-              
-              {person.message_to_the_world && (
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-500">Message to the World</h3>
-                  <p className="italic">&ldquo;{person.message_to_the_world}&rdquo;</p>
-                </div>
-              )}
-              
+            {person.context && (
               <div>
-                <h3 className="text-sm font-semibold text-gray-500">Added on</h3>
-                <p>{formatDate(person.created_at)}</p>
+                <h3 className="text-sm font-semibold text-gray-500">How We Met</h3>
+                <p className="text-gray-700">{person.context}</p>
               </div>
+            )}
+            
+            {person.date_met && (
+              <div>
+                <h3 className="text-sm font-semibold text-gray-500">Date Met</h3>
+                <p className="text-gray-700">{formatDate(person.date_met)}</p>
+              </div>
+            )}
+            
+            {person.their_story && (
+              <div>
+                <h3 className="text-sm font-semibold text-gray-500">Their Story</h3>
+                <p className="whitespace-pre-line text-gray-700">{person.their_story}</p>
+              </div>
+            )}
+            
+            {person.message_to_the_world && (
+              <div>
+                <h3 className="text-sm font-semibold text-gray-500">Message to the World</h3>
+                <p className="italic text-gray-700">&ldquo;{person.message_to_the_world}&rdquo;</p>
+              </div>
+            )}
+            
+            <div>
+              <h3 className="text-sm font-semibold text-gray-500">Added on</h3>
+              <p className="text-gray-700">{formatDate(person.created_at)}</p>
             </div>
           </div>
         </div>
