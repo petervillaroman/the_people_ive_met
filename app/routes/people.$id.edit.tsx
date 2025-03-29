@@ -1,7 +1,8 @@
 import { LoaderFunctionArgs, ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { Form, useLoaderData, useActionData, useNavigation } from "@remix-run/react";
 import { supabase } from "~/utils/supabase.server";
-import { useState, useEffect } from "react";
+import { compressImage } from "~/utils/imageCompression";
+import { useState, useEffect, useRef } from "react";
 import { v4 as uuid } from "uuid";
 
 type Person = {
@@ -57,7 +58,11 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const date_met = formData.get("date_met")?.toString() || null;
   const message_to_the_world = formData.get("message_to_the_world")?.toString() || null;
   const photo = formData.get("photo") as File | null;
+  const compressedPhoto = formData.get("compressedPhoto") as File | null;
   const keepExistingPhoto = formData.get("keepExistingPhoto") === "true";
+  
+  // Use the compressed photo if it exists, otherwise use the original
+  const photoToUpload = compressedPhoto || photo;
   
   // Validate required fields
   const errors: Record<string, string> = {};
@@ -79,7 +84,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   };
   
   // Handle photo if a new one is provided
-  if (photo && photo.size > 0) {
+  if (photoToUpload && photoToUpload.size > 0) {
     // Get existing photo URL to delete later
     const { data: existingPerson } = await supabase
       .from("people")
@@ -88,11 +93,11 @@ export async function action({ request, params }: ActionFunctionArgs) {
       .single();
     
     // Upload new photo
-    const filename = `${uuid()}-${photo.name}`;
+    const filename = `${uuid()}-${photoToUpload.name}`;
     
     const { error: uploadError } = await supabase.storage
       .from("portraits")
-      .upload(filename, photo, {
+      .upload(filename, photoToUpload, {
         cacheControl: "3600",
         upsert: false,
       });
@@ -146,9 +151,13 @@ export default function EditPerson() {
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [keepPhoto, setKeepPhoto] = useState(true);
   const navigation = useNavigation();
+  const [compressedFile, setCompressedFile] = useState<File | null>(null);
+  const [fileDetails, setFileDetails] = useState<string>("");
+  const [isCompressing, setIsCompressing] = useState(false);
+  const compressedPhotoRef = useRef<HTMLInputElement>(null);
   
   // Check if the form is currently submitting
-  const isSubmitting = navigation.state === "submitting";
+  const isSubmitting = navigation.state === "submitting" || isCompressing;
   
   // Initialize form with existing data
   useEffect(() => {
@@ -156,6 +165,30 @@ export default function EditPerson() {
       setSelectedDate(person.date_met);
     }
   }, [person]);
+  
+  // Handle file selection
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    
+    if (file) {
+      setIsCompressing(true);
+      setFileDetails(`Original: ${Math.round(file.size / 1024)} KB`);
+      
+      try {
+        const compressed = await compressImage(file, 300);
+        setCompressedFile(compressed);
+        setFileDetails(`Original: ${Math.round(file.size / 1024)} KB, Compressed: ${Math.round(compressed.size / 1024)} KB`);
+      } catch (error) {
+        console.error("Error compressing image:", error);
+        setFileDetails(`Original: ${Math.round(file.size / 1024)} KB (Compression failed)`);
+      } finally {
+        setIsCompressing(false);
+      }
+    } else {
+      setCompressedFile(null);
+      setFileDetails("");
+    }
+  };
   
   return (
     <div className="max-w-2xl mx-auto">
@@ -183,13 +216,22 @@ export default function EditPerson() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
-            <p className="text-lg font-semibold">Updating person...</p>
+            <p className="text-lg font-semibold">
+              {isCompressing ? "Compressing image..." : "Updating person..."}
+            </p>
             <p className="text-sm text-gray-500 mt-2">Please wait, this may take a moment if uploading a new photo.</p>
           </div>
         </div>
       )}
       
       <Form method="post" encType="multipart/form-data" className="space-y-4">
+        {/* Hidden input for compressed photo */}
+        <input 
+          type="hidden" 
+          name="compressedPhoto" 
+          ref={compressedPhotoRef} 
+        />
+        
         <div>
           <label htmlFor="name" className="block text-sm font-medium mb-1">
             Name <span className="text-red-500">*</span>
@@ -326,7 +368,14 @@ export default function EditPerson() {
             accept="image/*"
             className="w-full p-2 border rounded"
             disabled={isSubmitting}
+            onChange={handleFileChange}
           />
+          {fileDetails && (
+            <p className="text-sm text-gray-500 mt-1">{fileDetails}</p>
+          )}
+          {isCompressing && (
+            <p className="text-sm text-blue-500 mt-1">Compressing image...</p>
+          )}
         </div>
         
         <div className="pt-4">
@@ -336,6 +385,14 @@ export default function EditPerson() {
               isSubmitting ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={isSubmitting}
+            onClick={() => {
+              // Convert the compressed file to a DataTransfer object
+              if (compressedFile && compressedPhotoRef.current) {
+                const dt = new DataTransfer();
+                dt.items.add(compressedFile);
+                compressedPhotoRef.current.files = dt.files;
+              }
+            }}
           >
             {isSubmitting ? "Saving Changes..." : "Save Changes"}
           </button>
