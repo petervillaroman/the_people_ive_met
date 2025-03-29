@@ -40,7 +40,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="min-h-screen bg-gray-50 flex flex-col">
+      <body className="min-h-screen flex flex-col">
         <Navbar />
         <main className="container mx-auto p-4 mt-4 flex-grow">
           <Outlet />

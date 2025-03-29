@@ -105,87 +105,88 @@ export default function PersonDetails() {
   };
   
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden p-6">
-      <div className="flex justify-between items-center mb-6">
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden p-4 sm:p-6">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
         <a
           href="/people"
-          className="text-blue-600 hover:text-blue-800 flex items-center"
+          className="text-black hover:text-gray-700 font-medium flex items-center mb-4 sm:mb-0"
         >
           ← Back to all people
         </a>
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full sm:w-auto">
           <a
             href={`/people/${person.id}/edit`}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-center flex-1 sm:flex-initial"
           >
             Edit
           </a>
           <button
             onClick={handleDelete}
-            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
+            className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg flex-1 sm:flex-initial"
           >
             Delete
           </button>
         </div>
       </div>
       
-      <div className="md:flex">
-        <div className="md:w-1/3 ">
+      <div className="flex flex-col md:flex-row">
+        <div className="md:w-2/5 lg:w-1/3 mb-6 md:mb-0 md:mr-6">
           {person.photo_url ? (
             <img
               src={person.photo_url}
               alt={person.name}
-              className="w-full h-64 md:h-auto object-cover rounded-lg"
+              className="w-full h-auto object-cover rounded-lg shadow-md photo-bw"
+              style={{ maxHeight: '400px' }}
             />
           ) : (
-            <div className="bg-gray-200 w-full h-64 md:h-full flex items-center justify-center rounded-lg">
+            <div className="bg-gray-200 w-full h-64 md:h-64 flex items-center justify-center rounded-lg">
               <span className="text-gray-400">No photo</span>
             </div>
           )}
         </div>
         
-        <div className="p-6 md:w-2/3">
-          <h1 className="text-2xl font-bold mb-4 text-black">{person.name}</h1>
+        <div className="md:w-3/5 lg:w-2/3">
+          <h1 className="text-3xl font-bold mb-6 text-black">{person.name}</h1>
           
-          <div className="space-y-4">
+          <div className="space-y-6">
             {person.location && (
-              <div>
-                <h3 className="text-sm font-semibold text-gray-500">Location</h3>
-                <p className="text-gray-700">{person.location}</p>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h3 className="text-sm font-semibold text-black mb-2">Location</h3>
+                <p className="text-high-contrast">{person.location}</p>
               </div>
             )}
             
             {person.context && (
-              <div>
-                <h3 className="text-sm font-semibold text-gray-500">How We Met</h3>
-                <p className="text-gray-700">{person.context}</p>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h3 className="text-sm font-semibold text-black mb-2">How We Met</h3>
+                <p className="text-high-contrast">{person.context}</p>
               </div>
             )}
             
             {person.date_met && (
-              <div>
-                <h3 className="text-sm font-semibold text-gray-500">Date Met</h3>
-                <p className="text-gray-700">{formatDate(person.date_met)}</p>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h3 className="text-sm font-semibold text-black mb-2">Date Met</h3>
+                <p className="text-high-contrast">{formatDate(person.date_met)}</p>
               </div>
             )}
             
             {person.their_story && (
-              <div>
-                <h3 className="text-sm font-semibold text-gray-500">Their Story</h3>
-                <p className="whitespace-pre-line text-gray-700">{person.their_story}</p>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h3 className="text-sm font-semibold text-black mb-2">Their Story</h3>
+                <p className="whitespace-pre-line text-high-contrast">{person.their_story}</p>
               </div>
             )}
             
             {person.message_to_the_world && (
-              <div>
-                <h3 className="text-sm font-semibold text-gray-500">Message to the World</h3>
-                <p className="italic text-gray-700">&ldquo;{person.message_to_the_world}&rdquo;</p>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h3 className="text-sm font-semibold text-black mb-2">Message to the World</h3>
+                <p className="italic text-high-contrast">&ldquo;{person.message_to_the_world}&rdquo;</p>
               </div>
             )}
             
-            <div>
-              <h3 className="text-sm font-semibold text-gray-500">Added on</h3>
-              <p className="text-gray-700">{formatDate(person.created_at)}</p>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-semibold text-black mb-2">Added on</h3>
+              <p className="text-high-contrast">{formatDate(person.created_at)}</p>
             </div>
           </div>
         </div>

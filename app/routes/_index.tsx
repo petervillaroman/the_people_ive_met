@@ -11,22 +11,22 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6">
-      <h1 className="text-4xl font-bold mb-6 text-center text-orange-500">The People I&apos;ve Met</h1>
-      <p className="text-lg text-gray-600 max-w-2xl text-center mb-8">
+      <h1 className="text-4xl font-bold mb-6 text-center text-black">The People I&apos;ve Met</h1>
+      <p className="text-lg text-high-contrast max-w-2xl text-center mb-8">
         A personal collection of all the interesting people I&apos;ve encountered on my journey through life.
       </p>
       
-      <div className="space-y-4">
+      <div className="space-y-4 flex flex-col items-center">
         <Link
           to="/people"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg inline-block"
+          className="bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-lg text-lg inline-block min-w-48 text-center"
         >
           View All People
         </Link>
         
         <Link
           to="/people/new"
-          className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg text-lg inline-block"
+          className="border border-black hover:bg-gray-100 text-black px-6 py-3 rounded-lg text-lg inline-block min-w-48 text-center"
         >
           Add New Person
         </Link>

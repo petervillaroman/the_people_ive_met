@@ -4,7 +4,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-gray-800 text-gray-300 py-8 mt-8">
+    <footer className="bg-black text-white py-8 mt-8">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
@@ -13,9 +13,9 @@ export function Footer() {
           </div>
           
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6">
-            <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <Link to="/people" className="hover:text-white transition-colors">People</Link>
-            <Link to="/author" className="hover:text-white transition-colors">About Me</Link>
+            <Link to="/" className="hover:text-gray-300 transition-colors">Home</Link>
+            <Link to="/people" className="hover:text-gray-300 transition-colors">People</Link>
+            <Link to="/author" className="hover:text-gray-300 transition-colors">About Me</Link>
           </div>
         </div>
         

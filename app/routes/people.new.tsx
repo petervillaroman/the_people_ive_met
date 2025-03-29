@@ -118,7 +118,7 @@ export default function NewPerson() {
   
   return (
     <div className="max-w-2xl mx-auto">
-      <h2 className="text-xl font-semibold mb-6">Add New Person</h2>
+      <h2 className="text-2xl font-semibold mb-6 text-white">Add New Person</h2>
       
       {actionData?.error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -130,11 +130,11 @@ export default function NewPerson() {
       {isSubmitting && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
-            <p className="text-lg font-semibold">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black mx-auto mb-4"></div>
+            <p className="text-lg font-semibold text-black">
               {isCompressing ? "Compressing image..." : "Uploading photo and saving data..."}
             </p>
-            <p className="text-sm text-gray-500 mt-2">Please wait, this may take a moment.</p>
+            <p className="text-sm text-gray-700 mt-2">Please wait, this may take a moment.</p>
           </div>
         </div>
       )}
@@ -148,14 +148,14 @@ export default function NewPerson() {
         />
         
         <div>
-          <label htmlFor="name" className="block text-sm font-medium mb-1">
+          <label htmlFor="name" className="block text-sm font-medium mb-1 text-white">
             Name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
             id="name"
             name="name"
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded focus:border-black focus:ring-1 focus:ring-black"
             required
             disabled={isSubmitting}
           />
@@ -165,48 +165,48 @@ export default function NewPerson() {
         </div>
         
         <div>
-          <label htmlFor="location" className="block text-sm font-medium mb-1">
+          <label htmlFor="location" className="block text-sm font-medium mb-1 text-white">
             Location
           </label>
           <input
             type="text"
             id="location"
             name="location"
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded focus:border-black focus:ring-1 focus:ring-black"
             disabled={isSubmitting}
           />
         </div>
         
         <div>
-          <label htmlFor="context" className="block text-sm font-medium mb-1">
+          <label htmlFor="context" className="block text-sm font-medium mb-1 text-white">
             How You Met
           </label>
           <input
             type="text"
             id="context"
             name="context"
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded focus:border-black focus:ring-1 focus:ring-black"
             placeholder="e.g., At a conference, Through a friend"
             disabled={isSubmitting}
           />
         </div>
         
         <div>
-          <label htmlFor="their_story" className="block text-sm font-medium mb-1">
+          <label htmlFor="their_story" className="block text-sm font-medium mb-1 text-white">
             Their Story
           </label>
           <textarea
             id="their_story"
             name="their_story"
             rows={4}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded focus:border-black focus:ring-1 focus:ring-black"
             placeholder="What's their story? What makes them unique?"
             disabled={isSubmitting}
           ></textarea>
         </div>
         
         <div>
-          <label htmlFor="date_met" className="block text-sm font-medium mb-1">
+          <label htmlFor="date_met" className="block text-sm font-medium mb-1 text-white">
             Date Met
           </label>
           <input
@@ -215,27 +215,27 @@ export default function NewPerson() {
             name="date_met"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded focus:border-black focus:ring-1 focus:ring-black"
             disabled={isSubmitting}
           />
         </div>
         
         <div>
-          <label htmlFor="message_to_the_world" className="block text-sm font-medium mb-1">
+          <label htmlFor="message_to_the_world" className="block text-sm font-medium mb-1 text-white">
             Message to the World
           </label>
           <textarea
             id="message_to_the_world"
             name="message_to_the_world"
             rows={2}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded focus:border-black focus:ring-1 focus:ring-black"
             placeholder="A message or quote they'd like to share"
             disabled={isSubmitting}
           ></textarea>
         </div>
         
         <div>
-          <label htmlFor="photo" className="block text-sm font-medium mb-1">
+          <label htmlFor="photo" className="block text-sm font-medium mb-1 text-white">
             Photo
           </label>
           <input
@@ -243,24 +243,29 @@ export default function NewPerson() {
             id="photo"
             name="photo"
             accept="image/*"
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded focus:border-black focus:ring-1 focus:ring-black"
             disabled={isSubmitting}
             onChange={handleFileChange}
           />
           {fileDetails && (
-            <p className="text-sm text-gray-500 mt-1">{fileDetails}</p>
+            <p className="text-sm text-gray-700 mt-1">{fileDetails}</p>
           )}
           {isCompressing && (
-            <p className="text-sm text-blue-500 mt-1">Compressing image...</p>
+            <p className="text-sm text-blue-700 mt-1">Compressing image...</p>
           )}
         </div>
         
-        <div className="flex gap-4 pt-4">
+        <div className="flex justify-end gap-4">
+          <a
+            href="/people"
+            className="border border-black hover:bg-gray-100 text-white py-2 px-6 rounded-lg disabled:opacity-50"
+            tabIndex={isSubmitting ? -1 : undefined}
+          >
+            Cancel
+          </a>
           <button
             type="submit"
-            className={`bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg ${
-              isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className="bg-black hover:bg-gray-800 text-white py-2 px-6 rounded-lg disabled:opacity-50"
             disabled={isSubmitting}
             onClick={() => {
               // Convert the compressed file to a DataTransfer object
@@ -273,15 +278,6 @@ export default function NewPerson() {
           >
             {isSubmitting ? "Saving..." : "Save Person"}
           </button>
-          <a
-            href="/people"
-            className={`bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg ${
-              isSubmitting ? "opacity-50 pointer-events-none" : ""
-            }`}
-            tabIndex={isSubmitting ? -1 : undefined}
-          >
-            Cancel
-          </a>
         </div>
       </Form>
     </div>

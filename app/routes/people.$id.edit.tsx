@@ -193,10 +193,10 @@ export default function EditPerson() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold">Edit {person.name}</h2>
+        <h2 className="text-2xl font-semibold text-black">Edit {person.name}</h2>
         <a
           href={`/people/${person.id}`}
-          className={`text-blue-600 hover:text-blue-800 ${
+          className={`text-black hover:text-gray-700 font-medium ${
             isSubmitting ? "pointer-events-none opacity-50" : ""
           }`}
           tabIndex={isSubmitting ? -1 : undefined}
@@ -215,11 +215,11 @@ export default function EditPerson() {
       {isSubmitting && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
-            <p className="text-lg font-semibold">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black mx-auto mb-4"></div>
+            <p className="text-lg font-semibold text-black">
               {isCompressing ? "Compressing image..." : "Updating person..."}
             </p>
-            <p className="text-sm text-gray-500 mt-2">Please wait, this may take a moment if uploading a new photo.</p>
+            <p className="text-sm text-gray-700 mt-2">Please wait, this may take a moment if uploading a new photo.</p>
           </div>
         </div>
       )}
@@ -233,7 +233,7 @@ export default function EditPerson() {
         />
         
         <div>
-          <label htmlFor="name" className="block text-sm font-medium mb-1">
+          <label htmlFor="name" className="block text-sm font-medium mb-1 text-black">
             Name <span className="text-red-500">*</span>
           </label>
           <input
@@ -241,7 +241,7 @@ export default function EditPerson() {
             id="name"
             name="name"
             defaultValue={person.name}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded focus:border-black focus:ring-1 focus:ring-black"
             required
             disabled={isSubmitting}
           />
@@ -251,7 +251,7 @@ export default function EditPerson() {
         </div>
         
         <div>
-          <label htmlFor="location" className="block text-sm font-medium mb-1">
+          <label htmlFor="location" className="block text-sm font-medium mb-1 text-black">
             Location
           </label>
           <input
@@ -259,13 +259,13 @@ export default function EditPerson() {
             id="location"
             name="location"
             defaultValue={person.location || ""}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded focus:border-black focus:ring-1 focus:ring-black"
             disabled={isSubmitting}
           />
         </div>
         
         <div>
-          <label htmlFor="context" className="block text-sm font-medium mb-1">
+          <label htmlFor="context" className="block text-sm font-medium mb-1 text-black">
             How You Met
           </label>
           <input
@@ -273,13 +273,13 @@ export default function EditPerson() {
             id="context"
             name="context"
             defaultValue={person.context || ""}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded focus:border-black focus:ring-1 focus:ring-black"
             disabled={isSubmitting}
           />
         </div>
         
         <div>
-          <label htmlFor="their_story" className="block text-sm font-medium mb-1">
+          <label htmlFor="their_story" className="block text-sm font-medium mb-1 text-black">
             Their Story
           </label>
           <textarea
@@ -287,13 +287,13 @@ export default function EditPerson() {
             name="their_story"
             defaultValue={person.their_story || ""}
             rows={4}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded focus:border-black focus:ring-1 focus:ring-black"
             disabled={isSubmitting}
           ></textarea>
         </div>
         
         <div>
-          <label htmlFor="date_met" className="block text-sm font-medium mb-1">
+          <label htmlFor="date_met" className="block text-sm font-medium mb-1 text-black">
             Date Met
           </label>
           <input
@@ -302,13 +302,13 @@ export default function EditPerson() {
             name="date_met"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded focus:border-black focus:ring-1 focus:ring-black"
             disabled={isSubmitting}
           />
         </div>
         
         <div>
-          <label htmlFor="message_to_the_world" className="block text-sm font-medium mb-1">
+          <label htmlFor="message_to_the_world" className="block text-sm font-medium mb-1 text-black">
             Message to the World
           </label>
           <textarea
@@ -316,13 +316,13 @@ export default function EditPerson() {
             name="message_to_the_world"
             defaultValue={person.message_to_the_world || ""}
             rows={2}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded focus:border-black focus:ring-1 focus:ring-black"
             disabled={isSubmitting}
           ></textarea>
         </div>
         
         <div>
-          <label htmlFor="photo" className="block text-sm font-medium mb-1">Photo</label>
+          <label htmlFor="photo" className="block text-sm font-medium mb-1 text-black">Photo</label>
           
           {person.photo_url && (
             <div className="mb-3">
@@ -351,7 +351,7 @@ export default function EditPerson() {
                     name="keepExistingPhoto" 
                     value={keepPhoto.toString()} 
                   />
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-sm text-gray-700 mt-1">
                     {keepPhoto 
                       ? "Upload a new photo to replace the existing one" 
                       : "Current photo will be removed if no new photo is uploaded"}
@@ -366,24 +366,29 @@ export default function EditPerson() {
             id="photo"
             name="photo"
             accept="image/*"
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded focus:border-black focus:ring-1 focus:ring-black"
             disabled={isSubmitting}
             onChange={handleFileChange}
           />
           {fileDetails && (
-            <p className="text-sm text-gray-500 mt-1">{fileDetails}</p>
+            <p className="text-sm text-gray-700 mt-1">{fileDetails}</p>
           )}
           {isCompressing && (
-            <p className="text-sm text-blue-500 mt-1">Compressing image...</p>
+            <p className="text-sm text-blue-700 mt-1">Compressing image...</p>
           )}
         </div>
         
-        <div className="pt-4">
+        <div className="flex justify-end gap-4 pt-4">
+          <a
+            href={`/people/${person.id}`}
+            className="border border-black hover:bg-gray-100 text-black py-2 px-6 rounded-lg"
+            tabIndex={isSubmitting ? -1 : undefined}
+          >
+            Cancel
+          </a>
           <button
             type="submit"
-            className={`bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg ${
-              isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className="bg-black hover:bg-gray-800 text-white py-2 px-6 rounded-lg disabled:opacity-50"
             disabled={isSubmitting}
             onClick={() => {
               // Convert the compressed file to a DataTransfer object
@@ -394,7 +399,7 @@ export default function EditPerson() {
               }
             }}
           >
-            {isSubmitting ? "Saving Changes..." : "Save Changes"}
+            {isSubmitting ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </Form>

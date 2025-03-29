@@ -19,7 +19,7 @@ export function Navbar() {
   ];
   
   return (
-    <nav className="bg-blue-600 text-white shadow-md">
+    <nav className="bg-black text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Logo and site name */}
@@ -35,8 +35,8 @@ export function Navbar() {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors ${
-                  isActive(link.path) ? "bg-blue-700" : ""
+                className={`px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors ${
+                  isActive(link.path) ? "bg-gray-800" : ""
                 }`}
               >
                 {link.name}
@@ -48,7 +48,7 @@ export function Navbar() {
           <div className="flex md:hidden items-center">
             <button
               type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md hover:bg-blue-700 focus:outline-none"
+              className="inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-800 focus:outline-none"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <span className="sr-only">Open main menu</span>
@@ -89,8 +89,8 @@ export function Navbar() {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 transition-colors ${
-                  isActive(link.path) ? "bg-blue-700" : ""
+                className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 transition-colors ${
+                  isActive(link.path) ? "bg-gray-800" : ""
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
