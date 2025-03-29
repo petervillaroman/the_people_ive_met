@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs, ActionFunctionArgs, json, redirect } from "@remix-run/node";
-import { Form, useLoaderData, useActionData } from "@remix-run/react";
+import { Form, useLoaderData, useActionData, useNavigation } from "@remix-run/react";
 import { supabase } from "~/utils/supabase.server";
 import { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
@@ -145,6 +145,10 @@ export default function EditPerson() {
   const actionData = useActionData<ActionData>();
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [keepPhoto, setKeepPhoto] = useState(true);
+  const navigation = useNavigation();
+  
+  // Check if the form is currently submitting
+  const isSubmitting = navigation.state === "submitting";
   
   // Initialize form with existing data
   useEffect(() => {
@@ -159,7 +163,10 @@ export default function EditPerson() {
         <h2 className="text-xl font-semibold">Edit {person.name}</h2>
         <a
           href={`/people/${person.id}`}
-          className="text-blue-600 hover:text-blue-800"
+          className={`text-blue-600 hover:text-blue-800 ${
+            isSubmitting ? "pointer-events-none opacity-50" : ""
+          }`}
+          tabIndex={isSubmitting ? -1 : undefined}
         >
           Cancel
         </a>
@@ -168,6 +175,17 @@ export default function EditPerson() {
       {actionData?.error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
           {actionData.error}
+        </div>
+      )}
+      
+      {/* Show loading overlay when submitting */}
+      {isSubmitting && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
+            <p className="text-lg font-semibold">Updating person...</p>
+            <p className="text-sm text-gray-500 mt-2">Please wait, this may take a moment if uploading a new photo.</p>
+          </div>
         </div>
       )}
       
@@ -183,6 +201,7 @@ export default function EditPerson() {
             defaultValue={person.name}
             className="w-full p-2 border rounded"
             required
+            disabled={isSubmitting}
           />
           {actionData?.fieldErrors?.name && (
             <p className="text-red-500 text-sm mt-1">{actionData.fieldErrors.name}</p>
@@ -199,6 +218,7 @@ export default function EditPerson() {
             name="location"
             defaultValue={person.location || ""}
             className="w-full p-2 border rounded"
+            disabled={isSubmitting}
           />
         </div>
         
@@ -212,6 +232,7 @@ export default function EditPerson() {
             name="context"
             defaultValue={person.context || ""}
             className="w-full p-2 border rounded"
+            disabled={isSubmitting}
           />
         </div>
         
@@ -225,6 +246,7 @@ export default function EditPerson() {
             defaultValue={person.their_story || ""}
             rows={4}
             className="w-full p-2 border rounded"
+            disabled={isSubmitting}
           ></textarea>
         </div>
         
@@ -239,6 +261,7 @@ export default function EditPerson() {
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
             className="w-full p-2 border rounded"
+            disabled={isSubmitting}
           />
         </div>
         
@@ -252,6 +275,7 @@ export default function EditPerson() {
             defaultValue={person.message_to_the_world || ""}
             rows={2}
             className="w-full p-2 border rounded"
+            disabled={isSubmitting}
           ></textarea>
         </div>
         
@@ -274,6 +298,7 @@ export default function EditPerson() {
                       checked={keepPhoto}
                       onChange={() => setKeepPhoto(!keepPhoto)}
                       className="mr-2"
+                      disabled={isSubmitting}
                     />
                     <label htmlFor="keepExistingPhoto">
                       Keep existing photo
@@ -300,15 +325,19 @@ export default function EditPerson() {
             name="photo"
             accept="image/*"
             className="w-full p-2 border rounded"
+            disabled={isSubmitting}
           />
         </div>
         
         <div className="pt-4">
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+            className={`bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg ${
+              isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={isSubmitting}
           >
-            Save Changes
+            {isSubmitting ? "Saving Changes..." : "Save Changes"}
           </button>
         </div>
       </Form>

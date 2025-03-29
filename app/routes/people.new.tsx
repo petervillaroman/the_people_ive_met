@@ -1,5 +1,5 @@
 import { ActionFunctionArgs, redirect } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { supabase } from "~/utils/supabase.server";
 import { v4 as uuid } from "uuid";
 import { useState } from "react";
@@ -78,6 +78,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 export default function NewPerson() {
   const actionData = useActionData<ActionData>();
   const [selectedDate, setSelectedDate] = useState<string>("");
+  const navigation = useNavigation();
+  
+  // Check if the form is currently submitting
+  const isSubmitting = navigation.state === "submitting";
   
   return (
     <div className="max-w-2xl mx-auto">
@@ -86,6 +90,17 @@ export default function NewPerson() {
       {actionData?.error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
           {actionData.error}
+        </div>
+      )}
+      
+      {/* Show loading overlay when submitting */}
+      {isSubmitting && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
+            <p className="text-lg font-semibold">Uploading photo and saving data...</p>
+            <p className="text-sm text-gray-500 mt-2">Please wait, this may take a moment.</p>
+          </div>
         </div>
       )}
       
@@ -100,6 +115,7 @@ export default function NewPerson() {
             name="name"
             className="w-full p-2 border rounded"
             required
+            disabled={isSubmitting}
           />
           {actionData?.fieldErrors?.name && (
             <p className="text-red-500 text-sm mt-1">{actionData.fieldErrors.name}</p>
@@ -115,6 +131,7 @@ export default function NewPerson() {
             id="location"
             name="location"
             className="w-full p-2 border rounded"
+            disabled={isSubmitting}
           />
         </div>
         
@@ -128,6 +145,7 @@ export default function NewPerson() {
             name="context"
             className="w-full p-2 border rounded"
             placeholder="e.g., At a conference, Through a friend"
+            disabled={isSubmitting}
           />
         </div>
         
@@ -141,6 +159,7 @@ export default function NewPerson() {
             rows={4}
             className="w-full p-2 border rounded"
             placeholder="What's their story? What makes them unique?"
+            disabled={isSubmitting}
           ></textarea>
         </div>
         
@@ -155,6 +174,7 @@ export default function NewPerson() {
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
             className="w-full p-2 border rounded"
+            disabled={isSubmitting}
           />
         </div>
         
@@ -168,6 +188,7 @@ export default function NewPerson() {
             rows={2}
             className="w-full p-2 border rounded"
             placeholder="A message or quote they'd like to share"
+            disabled={isSubmitting}
           ></textarea>
         </div>
         
@@ -181,19 +202,26 @@ export default function NewPerson() {
             name="photo"
             accept="image/*"
             className="w-full p-2 border rounded"
+            disabled={isSubmitting}
           />
         </div>
         
         <div className="flex gap-4 pt-4">
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+            className={`bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg ${
+              isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={isSubmitting}
           >
-            Save Person
+            {isSubmitting ? "Saving..." : "Save Person"}
           </button>
           <a
             href="/people"
-            className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg"
+            className={`bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg ${
+              isSubmitting ? "opacity-50 pointer-events-none" : ""
+            }`}
+            tabIndex={isSubmitting ? -1 : undefined}
           >
             Cancel
           </a>
